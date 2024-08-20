@@ -9,8 +9,8 @@ import { useStateContext } from "../Context/ContextProvider.jsx";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function App() {
-   
-    const { canceling,setCanceling } = useStateContext()
+
+    const { canceling, setCanceling } = useStateContext()
     return (
         <HashRouter>
             <Helmet>

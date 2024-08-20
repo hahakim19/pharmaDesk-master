@@ -9,8 +9,8 @@ import { ContextProvider } from './Context/ContextProvider.jsx';
 const root = createRoot(document.getElementById("root")).render(
     <Provider store={store}>
         <ContextProvider>
-             <App />
+            <App />
         </ContextProvider>
-       
+
     </Provider>
 );

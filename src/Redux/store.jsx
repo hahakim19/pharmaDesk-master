@@ -10,7 +10,7 @@ const store = configureStore({
         notifications: notificationReducer,
         confirmedNotifications: confirmedNotificationReducer,
         user: userReducer,
-        cancelingNotif:cancelingNotifReducer
+        cancelingNotif: cancelingNotifReducer
 
 
     },
