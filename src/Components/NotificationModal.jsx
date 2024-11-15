@@ -250,7 +250,7 @@ const Modal = ({ isOpen, onClose, onRefuse, onAccept, onConfirm, selectedNotific
         const currentForm = form[formIndex];
 
         return (
-            <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50 select-none">
+            <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50 select-none" >
                 <div className="bg-white w-max rounded-lg p-6 shadow-lg">
                     <div className="flex flex-row items-center">
                         {isImageLoading && (

@@ -100,7 +100,7 @@ const Home = () => {
         </div>
         <div className="col-span-9 col-start-1 row-start-2 flex bg-background h-auto">
             <div className="w-max">
-                <SideMenu option_list={["Tableau de bord", "Boutique"]/*  + Object.keys(data[0]) */} />
+                <SideMenu option_list={[{ label: "Tableau de bord" }, { label: "Boutique", disabled: true }/* , { label: "Découvrir", disabled: true } */]/*  + Object.keys(data[0]) */} />
             </div>
             <div className="flex-1">
                 <div className="max-w-[190px] sm:max-w-[825px] min-h-[465px] max-h-[580px] grid grid-cols-12 grid-rows-14 w-full h-auto space-x-2 space-y-2 pb-3 pr-3 pt-1 bg-background mb-40">

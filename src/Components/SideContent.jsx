@@ -21,7 +21,7 @@ const SideContent = ({ userData, handleRefresh = () => { }, acivity = recentActi
                     </div>
                     <img src={pfp4} className="h-8 w-8 rounded-full" />
                 </div>
-                <div className="flex flex-col">
+                {/* <div className="flex flex-col">
                     <div className="font-medium mb-2">Activité Récente</div>
                     {acivity.map(
                         (tile, index) => {
@@ -29,11 +29,11 @@ const SideContent = ({ userData, handleRefresh = () => { }, acivity = recentActi
                             return (<ActivityTile key={`activity-tile-${index}`} tile={tile} last={index === (acivity.length - 1)} color={color} />);
                         }
                     )}
-                </div>
+                </div> */}
                 <div className="flex flex-col">
-                    <div className="h-1/2 w-full space-y-2">
+                    <div className="h-max w-full space-y-2">
                         <div className="inline-flex mb-2 justify-between items-center ">
-                            <span className="font-medium">Commandes</span>
+                            <span className="font-medium">Confirmation et Posiologie</span>
                             {!(notifObject.isLoading || confirmedNotifObject.isLoading) && (<span className="text-sm ml-2 text-textSecoundary cursor-pointer" onClick={() => handleRefresh()}>Refresh</span>)}
                             {(notifObject.isLoading || confirmedNotifObject.isLoading) && (<span className="text-sm ml-2 text-disabled">Refresh</span>)}
                         </div>
@@ -41,11 +41,12 @@ const SideContent = ({ userData, handleRefresh = () => { }, acivity = recentActi
                         {!(confirmedNotifObject.isLoading || confirmedNotifObject.data.length < 1) && confirmedNotifObject.data.map((tile, not_index) => (<NotificationTile key={`confirm-notification-tile-${not_index}`} tile={tile} index={not_index} handleClick={() => openNotification(tile, 1)} />))}
                     </div>
                     <div className="my-5" />
-                    <div className="h-1/2 w-full space-y-2">
+                    <div className="h-max w-full space-y-2">
                         <div className="inline-flex mb-2">
-                            <span className="font-medium">Notifications</span>
+                            <span className="font-medium">Notifications d'ordonnances</span>
                         </div>
-                        {(notifObject.isLoading || notifObject.data.length < 1) && <NotifictionsSkeleton />}
+                        {(!notifObject.isLoading && notifObject.data.length < 1) && (<span className="flex flex-row px-4 text-textSecoundary italic font-light">Il n'y a pas de notifications</span>)}
+                        {notifObject.isLoading && <NotifictionsSkeleton />}
                         {!(notifObject.isLoading || notifObject.data.length < 1) && notifObject.data.map((tile, not_index) => (<NotificationTile key={`notification-tile-${not_index}`} tile={tile} index={not_index} handleClick={() => openNotification(tile, 0)} />))}
                     </div>
                 </div>
