@@ -5,11 +5,19 @@ import './index.css';
 import { Provider } from 'react-redux';
 import store from './Redux/store.jsx';
 import { ContextProvider } from './Context/ContextProvider.jsx';
+import { AuthProvider } from './Context/AuthProvider.jsx';
+
 
 const root = createRoot(document.getElementById("root")).render(
     <Provider store={store}>
         <ContextProvider>
-            <App />
+            <AuthProvider>
+                 <App /> 
+            </AuthProvider>
+           
+              
+          
+            
         </ContextProvider>
 
     </Provider>

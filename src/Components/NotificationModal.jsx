@@ -17,11 +17,7 @@ const Modal = ({ isOpen, onClose, onRefuse, onAccept, onConfirm, selectedNotific
         onClose();
     };
 
-<<<<<<< HEAD
     if (confirmType) {
-=======
-    if (!confirmType) {
->>>>>>> 65fe999 (Prototype Ready)
 
         /* Enable Posiologie */
         const [isOn, setIsOn] = useState(false);

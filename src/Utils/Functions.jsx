@@ -55,3 +55,29 @@ export function formatDate(timeDifference) {
     }
     return formattedTime;
 }
+
+export function validateEmail(email) {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+}
+  
+export function validatePasswordLength(password) {
+    const minLength = 8;
+    return password.length >= minLength;
+  }
+  
+export function stringComparisonMatching  (input1,input2) {
+    if (input1 === input2) return true 
+    else return false 
+  }
+  
+ export function validatePhoneNumber(phoneNumber) {
+    // Regular expression to match phone numbers starting with 07, 06, or 05 and consisting of 10 digits
+    const phoneRegex = /^(07|06|05)\d{8}$/;
+    return phoneRegex.test(phoneNumber);
+ }
+  
+ export function areAllTrue(obj) {
+    // Use Object.values to get all values of the object and check if all are true
+    return Object.values(obj).every(value => value === true);
+}
