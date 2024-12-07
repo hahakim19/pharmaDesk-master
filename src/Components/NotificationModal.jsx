@@ -5,6 +5,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { MdNavigateNext } from "react-icons/md";
 import { GrFormPrevious } from "react-icons/gr";
 import { FaMinus } from "react-icons/fa6";
+import DropdownMenu from './DropDownMenu.jsx';
 
 const Modal = ({ isOpen, onClose, onRefuse, onAccept, onConfirm, selectedNotification, confirmType }) => {
 
@@ -18,6 +19,43 @@ const Modal = ({ isOpen, onClose, onRefuse, onAccept, onConfirm, selectedNotific
     };
 
     if (confirmType) {
+
+        const portionObjects = {
+            'take': 'Par prise',
+            'volume': 'Par volume',
+            'weight': 'Par poids',
+            'c_cafe': 'Par cuillère à caffé',
+            'c_soup': 'Par cuillère à soupe',
+            'autre': 'Autre'
+        }
+
+        const portionTypes = {
+            'take': 1,
+            'volume': 10,
+            'weight': 10,
+            'c_cafe': 1,
+            'c_soup': 1,
+            'autre': null,
+        };
+
+        const [selectedPortion, setSelectedPortion] = useState('take');
+
+
+        const frequencyObjects = {
+            'heur': 'Par heur',
+            'jour': 'Par jour',
+            'mois': 'Par mois',
+            'autre': 'Autre',
+        }
+
+        const frequencyTypes = {
+            'heur': 'h',
+            'jour': 'j',
+            'mois': 'm',
+            'autre': null,
+        };
+
+        const [selectedFrequency, setSelectedFrequency] = useState('heur');
 
         /* Enable Posiologie */
         const [isOn, setIsOn] = useState(false);
@@ -56,9 +94,10 @@ const Modal = ({ isOpen, onClose, onRefuse, onAccept, onConfirm, selectedNotific
 
         /* When to take? */
         const timingList = {
-            avantRepas: "Avant Repas",
-            apresRepas: "Après Repas",
             ajeun: "À jeun",
+            avantRepas: "Avant Repas",
+            pendantRepas: "Pendant Repas",
+            apresRepas: "Après Repas",
         };
         const [timing, setTiming] = useState(0);
 
@@ -78,9 +117,10 @@ const Modal = ({ isOpen, onClose, onRefuse, onAccept, onConfirm, selectedNotific
         const handleTiming = (index) => {
             setForm(prev => prev.map((item, i) => i === formIndex ? {
                 ...item,
-                avantRepas: index === 0 ? 1 : 0,
-                apresRepas: index === 1 ? 1 : 0,
-                ajeun: index === 2 ? 1 : 0,
+                ajeun: index === 0 ? 1 : 0,
+                avantRepas: index === 1 ? 1 : 0,
+                pendantRepas: index === 2 ? 1 : 0,
+                apresRepas: index === 3 ? 1 : 0,
             } : item));
         };
 
@@ -144,9 +184,10 @@ const Modal = ({ isOpen, onClose, onRefuse, onAccept, onConfirm, selectedNotific
         const [form, setForm] = useState([{
             "nomPils": '',
             "quantite": quantityPortion,
-            "avantRepas": timing === 0 ? 1 : 0,
-            "apresRepas": timing === 1 ? 1 : 0,
-            "ajeun": timing === 2 ? 1 : 0,
+            "ajeun": timing === 0 ? 1 : 0,
+            "avantRepas": timing === 1 ? 1 : 0,
+            "pendantRepas": timing === 2 ? 1 : 0,
+            "apresRepas": timing === 3 ? 1 : 0,
             "matin": often.matin ? 1 : 0,
             "apresMidi": often.apresMidi ? 1 : 0,
             "soire": often.soire ? 1 : 0,
@@ -286,25 +327,64 @@ const Modal = ({ isOpen, onClose, onRefuse, onAccept, onConfirm, selectedNotific
                                     </div>
                                 </div>
 
+
+
+
+
+
+
+                                <div className="row-span-1 col-span-6">
+                                    <div className="inline-flex flex-row space-x-2 items-center">
+                                        <span>Fréquence de prise</span>
+                                        {frequencyTypes[selectedFrequency] != null && (<div className='inline-flex justify-center items-center space-x-1'>
+                                            <FaMinus className='text-[1.2rem] cursor-pointer text-textSecoundary' onClick={() => {
+                                                console.log('Minus');
+                                            }} />
+                                            <span className='text-textPrimary px-2 py-1 bg-lightShapes rounded-lg'>1{frequencyTypes[selectedFrequency]}</span>
+                                            <IoMdAdd className='text-[1.5rem] cursor-pointer text-textSecoundary' onClick={() => { console.log('Plus'); }} />
+                                        </div>)}
+                                        <DropdownMenu options={Object.entries(frequencyObjects).map(([key, value]) => ({
+                                            value: key,
+                                            label: value
+                                        }))} label={frequencyObjects[selectedFrequency]} selectedValue={selectedFrequency} onSelect={(value) => {
+                                            setSelectedFrequency(value);
+                                        }}
+                                            disabled={!isOn}
+                                        />
+                                    </div>
+                                </div>
+
+
+
+
+
                                 {/* Line 2 */}
                                 <div className="row-span-1 col-span-6">
                                     <div className="inline-flex flex-row space-x-2 items-center">
                                         <span>Quelle quantité par prise?</span>
-                                        <div className='inline-flex justify-center items-center space-x-1'>
+                                        {portionTypes[selectedPortion] != null && (<div className='inline-flex justify-center items-center space-x-1'>
                                             <FaMinus className='text-[1.2rem] cursor-pointer text-textSecoundary' onClick={() => minusQuantity()} />
-                                            <span className='text-textPrimary px-2 py-1 bg-lightShapes rounded-lg'>{currentForm["quantite"]}</span>
+                                            <span className='text-textPrimary px-2 py-1 bg-lightShapes rounded-lg'>{portionTypes[selectedPortion]}</span>
                                             <IoMdAdd className='text-[1.5rem] cursor-pointer text-textSecoundary' onClick={() => addQuantity()} />
-                                        </div>
+                                        </div>)}
+                                        <DropdownMenu options={Object.entries(portionObjects).map(([key, value]) => ({
+                                            value: key,
+                                            label: value
+                                        }))} label={portionObjects[selectedPortion]} selectedValue={selectedPortion} onSelect={(value) => {
+                                            setSelectedPortion(value);
+                                        }}
+                                            disabled={!isOn}
+                                        />
                                     </div>
                                 </div>
 
                                 {/* Line 3 */}
                                 <div className="row-span-1 col-span-6 space-x-2">
-                                    <span className='mr-2'>Quand prendre?</span>
-                                    {Object.entries(timingList).map(([key, value], index) => (<div className='inline-flex justify-center items-center space-x-1 mx-1' key={`timing-key-${index}`}>
+                                    <span className='mb-2'>Quand prendre?</span>
+                                    {Object.entries(timingList).map(([key, value], index) => (<div className='flex justify-start items-start space-x-1 mx-1' key={`timing-key-${index}`}>
                                         <input
                                             type="radio"
-                                            className={`${isOn ? 'text-primary' : 'text-gray-500'} cursor-pointer`}
+                                            className={`${isOn ? 'accent-primary' : 'accent-gray-500'} cursor-pointer`}
                                             value={index}
                                             checked={currentForm[key]}
                                             onChange={() => handleTiming(index)} />
@@ -313,19 +393,19 @@ const Modal = ({ isOpen, onClose, onRefuse, onAccept, onConfirm, selectedNotific
                                 </div>
 
                                 {/* Line 4 */}
-                                <div className="row-span-1 col-span-6 space-x-2">
+                                {/* <div className="row-span-1 col-span-6 space-x-2">
                                     <span className='mr-2'>À quelle fréquence?</span>
                                     {Object.entries(oftenList).map(([key, value], index) => (
                                         <span key={`often-key-${index}`} onClick={() => handleOften(key)} className={`${currentForm[key] ? 'text-white' : 'text-textPrimary'} px-2 py-1 ${currentForm[key] ? isOn ? 'bg-primary' : 'bg-gray-500' : 'bg-lightShapes'} rounded-lg cursor-pointer select-none`}>{value}</span>
                                     ))}
-                                </div>
+                                </div> */}
 
                                 {/* Line 5 */}
-                                <div className="row-span-1 col-span-6">
-                                    <span className='mr-2'>Nombre de jours</span>
+                                <div className="row-span-1 col-span-6 mt-4">
+                                    <span className='mr-2'>Durée de traitement: </span>
                                     <div className='inline-flex justify-center items-center space-x-1'>
                                         <FaMinus className='text-[1.2rem] text-textSecoundary cursor-pointer' onClick={() => minusDays()} />
-                                        <span className='text-textPrimary px-2 py-1 bg-lightShapes rounded-lg'>{currentForm["duree"]}</span>
+                                        <span className='text-textPrimary px-2 py-1 bg-lightShapes rounded-lg'>{currentForm["duree"]}j</span>
                                         <IoMdAdd className='text-[1.5rem] text-textSecoundary cursor-pointer' onClick={() => addDays()} />
                                     </div>
                                 </div>

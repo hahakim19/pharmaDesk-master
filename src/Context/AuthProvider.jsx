@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { createContext, useContext, useState, useEffect, useRef } from 'react'
-import { validateEmail,areAllTrue } from '../Utils/Functions.jsx'
+import { validateEmail, areAllTrue } from '../Utils/Functions.jsx'
 import { toast } from 'react-toastify';
 
 const AuthContext = createContext();
@@ -17,7 +17,7 @@ const singForm = {
     nameOwner: "",
     password: "",
     store: "",
-    confirmation:"",
+    confirmation: "",
     services: "",
     phoneNumber: "",
     description: "",
@@ -28,7 +28,7 @@ const singForm = {
     commune: "",
     wilaya: "",
     adressStore: "",
-    phonePharmacy:""
+    phonePharmacy: ""
 
 }
 
@@ -64,8 +64,9 @@ export const AuthProvider = ({ children }) => {
 
 
 
-        }).catch((e) => { console.log(e);
-        
+        }).catch((e) => {
+            console.log(e);
+
             if (e.request.status == 400) {
                 const parsedmessage = JSON.parse(e.request.response)
                 if (parsedmessage.message == 'Email or password incorrect') {
@@ -158,7 +159,7 @@ export const AuthProvider = ({ children }) => {
             alert('Veuillez remplir les zones obligatoires avant de soumettre.');
         }
     }
-    
+
 
 
 

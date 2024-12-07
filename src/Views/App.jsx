@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../Components/Navbar.jsx";
-import { BrowserRouter, HashRouter, Navigate, Route, Routes,useLocation } from "react-router-dom";
+import { BrowserRouter, HashRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import NotFound from "../Components/NotFound.jsx";
 import Home from "./home.jsx";
 import Layout from "./layout.jsx";
@@ -17,36 +17,36 @@ import SignUp from "./AuthViews/SignUp.jsx";
 export default function App() {
 
     const { canceling, setCanceling } = useStateContext()
-   const {isAuth, setIsAuth} = useAuthContext()
-/*    const navigate = useNavigate(); // Initialize the useNavigate hook */
-  
+    const { isAuth, setIsAuth } = useAuthContext()
+    /*    const navigate = useNavigate(); // Initialize the useNavigate hook */
+
 
     useEffect(() => {
 
-       
+
         const dataJson = localStorage.getItem("token")
-      
-        
+
+
         if (dataJson) {
             setIsAuth(true);
 
         } else {
-            setIsAuth(false); // If token is not found, set isAuth to false
+            setIsAuth(true); // If token is not found, set isAuth to false
         }
-       
-        console.log('im in the',isAuth);
 
-            
-        },[isAuth])
+        console.log('im in the', isAuth);
 
-/* // Redirect based on the isAuth state
-useEffect(() => {
-    if (isAuth) {
-        navigate("/"); // If authenticated, go to the home page
-    } else {
-        navigate("/login"); // If not authenticated, go to login page
-    }
-}, [isAuth, navigate]); // This effect depends on the `isAuth` state */
+
+    }, [isAuth])
+
+    /* // Redirect based on the isAuth state
+    useEffect(() => {
+        if (isAuth) {
+            navigate("/"); // If authenticated, go to the home page
+        } else {
+            navigate("/login"); // If not authenticated, go to login page
+        }
+    }, [isAuth, navigate]); // This effect depends on the `isAuth` state */
 
 
     return (
@@ -58,9 +58,9 @@ useEffect(() => {
                 />
             </Helmet>
             <Routes>
-               
-                <Route path='/' element={isAuth ? <Layout/> : <Login/>}>
-                    <Route index  element={<Home />} />
+
+                <Route path='/' element={isAuth ? <Layout /> : <Login />}>
+                    <Route index element={<Home />} />
                     <Route path='store' element={<NotFound />} />
                     <Route path='discover' element={<NotFound />} />
                 </Route>
@@ -73,12 +73,12 @@ useEffect(() => {
 
                 <Route path="/login" element={<Login />} />
 
-                
-                
+
+
                 <Route path="/passwordForgotten" element={<PasswordForgoten />} />
-                <Route path="/resetPassword" element={<ResetPassword/>} />
-                <Route path="/signup" element={<SignUp/>} />
-               
+                <Route path="/resetPassword" element={<ResetPassword />} />
+                <Route path="/signup" element={<SignUp />} />
+
             </Routes>
             <ToastContainer />
         </HashRouter>

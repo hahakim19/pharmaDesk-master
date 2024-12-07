@@ -47,7 +47,7 @@ const SideContent = ({ userData, handleRefresh = () => { }, acivity = recentActi
                         </div>
                         {(!notifObject.isLoading && notifObject.data.length < 1) && (<span className="flex flex-row px-4 text-textSecoundary italic font-light">Il n'y a pas de notifications</span>)}
                         {notifObject.isLoading && <NotifictionsSkeleton />}
-                        {!(notifObject.isLoading || notifObject.data.length < 1) && notifObject.data.map((tile, not_index) => (<NotificationTile key={`notification-tile-${not_index}`} tile={tile} index={not_index} handleClick={() => openNotification(tile, 0)} />))}
+                        {!(notifObject.isLoading || notifObject.data.length < 1) && notifObject.data.map((tile, not_index) => (<NotificationTile key={`notification-tile-${not_index}`} tile={tile} index={not_index} handleClick={() => openNotification(tile, 1)} />))}
                     </div>
                 </div>
             </div>

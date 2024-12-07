@@ -14,8 +14,8 @@ const SideMenu = ({ option_list, initialIndex = 0 }) => {
         const label = option_list[i].label;
         <IoLockClosedOutline />
         const disabled = option_list[i].disabled ?? false;
-        renderedItems.push(<div className="flex flex-row justify-between items-center text-disabled">
-            <span key={`menu-option-${label}-i`} onClick={!disabled ? () => handleMenuSwitch(i) : null} className={`flex grow ${!disabled ? index === i ? "bg-disabled " : "" : "bg-lightShapes"}rounded-md ${!disabled ? "cursor-pointer" : ""} px-6 py-2 font-medium ${!disabled ? index === i ? "text-black" : "text-textSecoundary" : "text-disabled"}`}>{label}</span>
+        renderedItems.push(<div key={`menu-option-${label}-i`} className="flex flex-row justify-between items-center text-disabled">
+            <span onClick={!disabled ? () => handleMenuSwitch(i) : null} className={`flex grow ${!disabled ? index === i ? "bg-disabled " : "" : "bg-lightShapes"}rounded-md ${!disabled ? "cursor-pointer" : ""} px-6 py-2 font-medium ${!disabled ? index === i ? "text-black" : "text-textSecoundary" : "text-disabled"}`}>{label}</span>
             {disabled && (<IoLockClosedOutline />)}
         </div>)
     }
