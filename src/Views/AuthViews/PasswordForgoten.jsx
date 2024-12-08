@@ -8,9 +8,9 @@ import { useNavigate } from 'react-router-dom'
 export default function PasswordForgoten() {
 
     const [isEmailvalid, setIsEmailValid] = useState(true)
-  const { resetPasswordEmail, setResetPasswordEmail, sendEmailForChangingPassword } = useAuthContext()
+  const {  sendEmailForChangingPassword, } = useAuthContext()
   
-  const { triggerNavigate,setTriggerNavigate } = useStateContext()
+  const {resetPasswordEmail, setResetPasswordEmail,triggerNavigate, setTriggerNavigate } = useStateContext()
   const navigate = useNavigate()
   
     
@@ -28,6 +28,8 @@ export default function PasswordForgoten() {
   useEffect(() => {
     
     if (triggerNavigate) {
+      console.log('im in the trigger ');
+      
       navigate('/resetPassword');
       setTriggerNavigate(false);
     }

@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { createContext, useContext, useState, useEffect, useRef } from 'react'
 import { validateEmail, areAllTrue } from '../Utils/Functions.jsx'
 import { toast } from 'react-toastify';
+import { useStateContext } from './ContextProvider.jsx';
 
 const AuthContext = createContext();
 
@@ -40,7 +41,6 @@ export const AuthProvider = ({ children }) => {
     const [loginForm, setLoginForm] = useState(initLoginForm) /// formulaire pour le login 
     const [signForm, setSignForm] = useState(singForm) /// formulaire pour le login
     const [incorrectAuth, setIncorrectAuth] = useState(false) /// 
-    const [resetPasswordEmail, setResetPasswordEmail] = useState("") ///  email field for reset password
 
     const [resetPasswordForm, setResetPasswordForm] = useState({
         password: "",
@@ -48,8 +48,17 @@ export const AuthProvider = ({ children }) => {
     })
     const [triggerNavigateHome, setTriggerNavigateHome] = useState(false);
     const [triggerNavigateLogin, setTriggerNavigateLogin] = useState(false);
-
+    const [triggerNavigate, setTriggerNavigate] = useState(false);
     const [isAuth, setIsAuth] = useState(false);
+
+    const { resetPasswordEmail, setResetPasswordEmail,socket } = useStateContext()
+
+
+   
+
+
+
+
 
     const handleLoginPost = () => {
 
@@ -100,7 +109,10 @@ export const AuthProvider = ({ children }) => {
             }
 
         })
+        // Listen for the 'store_connected' event
+        socket.emit('onChanging_password', { email: resetPasswordEmail });//// make the id dynamic 
 
+       
     }
 
     const resetPassword = () => {
@@ -176,6 +188,7 @@ export const AuthProvider = ({ children }) => {
             isAuth, setIsAuth, resetPassword,
             signForm, setSignForm, signRequest,
             triggerNavigateLogin, setTriggerNavigateLogin,
+            triggerNavigate, setTriggerNavigate
         }}>
 
             {children}

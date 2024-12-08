@@ -210,7 +210,7 @@ function SignUp() {
                                         {!validationForm.email ? <span className='incorrect-style-left'>L'adresse Email est inccorecte</span> : null}
                                     </div>
                                     <div className="flex flex-col  gap-2 ">  <label className='font-semibold text-[#494949]'>Numéro de téléphone <span className='text-[#7e7e7e] text-sm'>(personnel)</span></label>
-                                        <input type='number' className='w-[250px] px-[8px] py-[8px] border border-[#bebebe] outline-[#4693c7]  rounded-md ' onChange={Onchange} value={signForm.phoneNumber} name='phoneNumber' />
+                                        <input type='text' className='w-[250px] px-[8px] py-[8px] border border-[#bebebe] outline-[#4693c7]  rounded-md ' onChange={Onchange} value={signForm.phoneNumber} name='phoneNumber' />
                                         {!validationForm.phoneNumber ? <span className='incorrect-style-left text-sm'>Le Numero de telephone est inccorect</span> : null}
                                     </div>
                                     <div className="flex flex-col  gap-2 ">  <label className='font-semibold text-[#494949]'>Adresse complète</label>
@@ -226,7 +226,7 @@ function SignUp() {
                                     <div className="flex flex-col  gap-2 "> <label className='font-semibold text-[#494949]'>Adresse boutique</label>
                                         <input type='malito' className='w-[250px] px-[8px] py-[8px] border border-[#bebebe] outline-[#4693c7]  rounded-md ' onChange={Onchange} value={signForm.adressStore} name='adressStore' /></div>
                                     <div className="flex flex-col  gap-2 ">  <label className='font-semibold text-[#494949]'>Numéro de téléphone <span className='text-[#7e7e7e] text-sm'>(pharmacie)</span></label>
-                                        <input type='number' className='w-[250px] px-[8px] py-[8px] border border-[#bebebe] outline-[#4693c7]  rounded-md ' onChange={Onchange} value={signForm.phonePharmacy} name='phonePharmacy' />
+                                        <input type='text' className='w-[250px] px-[8px] py-[8px] border border-[#bebebe] outline-[#4693c7]  rounded-md ' onChange={Onchange} value={signForm.phonePharmacy} name='phonePharmacy' />
                                         {!validationForm.phonePharmacy ? <span className='incorrect-style-left text-sm'>Le Numero de telephone est inccorect</span> : null}
                                     </div>
                                     <div className="flex flex-col  gap-2 ">  <label className='font-semibold text-[#494949]'>Latitude</label>

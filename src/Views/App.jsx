@@ -31,7 +31,7 @@ export default function App() {
             setIsAuth(true);
 
         } else {
-            setIsAuth(true); // If token is not found, set isAuth to false
+            setIsAuth(false); // If token is not found, set isAuth to false
         }
 
         console.log('im in the', isAuth);

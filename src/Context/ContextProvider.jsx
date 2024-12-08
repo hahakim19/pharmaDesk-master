@@ -19,7 +19,8 @@ export const ContextProvider = ({ children }) => {
 
   const [connectedPharmacy, setConnectedPharmacy] = useState(null);
   const [triggerNavigate, setTriggerNavigate] = useState(false);
-
+  const [socket, setSocket] = useState(null)
+  const [resetPasswordEmail, setResetPasswordEmail] = useState("") ///  email field for reset password
 
 
 
@@ -30,12 +31,15 @@ export const ContextProvider = ({ children }) => {
 
     //get ID from localstorage when loading 
     const jsonId = localStorage.getItem('idpharma')
-    /* const idpharma = JSON.parse(jsonId) */
-    const idpharma = 1
+    const idpharma = JSON.parse(jsonId)
+    /* const idpharma = 1 */
     // Initialize Socket.IO client and set it to state
     const socket = io(HOST);
+    setSocket(socket)
 
     if (idpharma != null) {
+      console.log("hellllooooo from the socket ");
+
       // Listen for the 'store_connected' event
       socket.emit('store_connected', { idpharma });//// make the id dynamic 
 
@@ -49,17 +53,26 @@ export const ContextProvider = ({ children }) => {
 
       });
 
-      socket.on('restoring_password', (data) => {
-        console.log("i'm in the restoring socket out if  ", data);
-        if (data.idpharma != null || undefined) {
 
-          console.log("i'm in the restoring socket ", data.idpharma);// set useNavigate() to redirect to the changing page 
 
-          localStorage.setItem('idpharma', data.idpharma)
-          setTriggerNavigate(true)
-        }
-      })
+
     }
+
+    socket.on('restoring_password', (data) => {
+
+      console.log("i'm in the restoring socket out if  ", data);
+      if (data.idpharma != null || undefined) {
+
+        console.log("i'm in the restoring socket ", data.idpharma);// set useNavigate() to redirect to the changing page 
+
+        localStorage.setItem('idpharma', data.idpharma)
+        setTriggerNavigate(true)
+      }
+    })
+
+
+
+
 
 
 
@@ -86,7 +99,8 @@ export const ContextProvider = ({ children }) => {
   return (
 
     <StateContext.Provider value={{
-      triggerNavigate, setTriggerNavigate
+      triggerNavigate, setTriggerNavigate,
+      resetPasswordEmail, setResetPasswordEmail, socket
 
     }}>
 
