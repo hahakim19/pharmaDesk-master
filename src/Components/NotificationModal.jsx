@@ -39,6 +39,9 @@ const Modal = ({ isOpen, onClose, onRefuse, onAccept, onConfirm, selectedNotific
         };
 
         const [selectedPortion, setSelectedPortion] = useState('take');
+        /* Quantity Per Take */
+        const quantityPortion = 1 / 2;
+        const [quantity, setQuantity] = useState(0);
 
 
         const frequencyObjects = {
@@ -57,6 +60,8 @@ const Modal = ({ isOpen, onClose, onRefuse, onAccept, onConfirm, selectedNotific
 
         const [selectedFrequency, setSelectedFrequency] = useState('heur');
 
+        const [frequency, setFrequency] = useState(1);
+
         /* Enable Posiologie */
         const [isOn, setIsOn] = useState(false);
 
@@ -64,30 +69,32 @@ const Modal = ({ isOpen, onClose, onRefuse, onAccept, onConfirm, selectedNotific
             setIsOn(!isOn);
         };
 
-        /* Quantity Per Take */
-        const quantityPortion = 1 / 2;
-        const [quantity, setQuantity] = useState(quantityPortion);
 
-        /* const addQuantity = () => {
-            setQuantity(prev => prev + quantityPortion);
+        const addFrequency = () => {
+            setForm(prev => prev.map((item, i) => i === formIndex ? {
+                ...item,
+                frequence: item.quantite + 1
+            } : item));
         }
 
-        const minusQuantity = () => {
-            if (quantity > quantityPortion) {
-                setQuantity(prev => prev - quantityPortion);
-            }
-        } */
+        const minusFrequency = () => {
+            setForm(prev => prev.map((item, i) => i === formIndex && item.quantite > quantityPortion ? {
+                ...item,
+                frequence: item.quantite - 1
+            } : item));
+        }
+
         const addQuantity = () => {
             setForm(prev => prev.map((item, i) => i === formIndex ? {
                 ...item,
-                quantite: item.quantite + quantityPortion
+                quantite: item.quantite + portionTypes[selectedPortion]
             } : item));
         };
 
         const minusQuantity = () => {
             setForm(prev => prev.map((item, i) => i === formIndex && item.quantite > quantityPortion ? {
                 ...item,
-                quantite: item.quantite - quantityPortion
+                quantite: item.quantite - portionTypes[selectedPortion]
             } : item));
         };
 
@@ -184,14 +191,17 @@ const Modal = ({ isOpen, onClose, onRefuse, onAccept, onConfirm, selectedNotific
         const [form, setForm] = useState([{
             "nomPils": '',
             "quantite": quantityPortion,
+            "quantiteDetails": selectedPortion,
             "ajeun": timing === 0 ? 1 : 0,
             "avantRepas": timing === 1 ? 1 : 0,
             "pendantRepas": timing === 2 ? 1 : 0,
             "apresRepas": timing === 3 ? 1 : 0,
-            "matin": often.matin ? 1 : 0,
-            "apresMidi": often.apresMidi ? 1 : 0,
-            "soire": often.soire ? 1 : 0,
-            "duree": daysPortion
+            "matin": 0,
+            "apresMidi": 0,
+            "soire": 0,
+            "duree": daysPortion,
+            "frequence": frequency,
+            "frequenceDetails": selectedFrequency,
         }]);
         const [formIndex, setFormIndex] = useState(0);
 
@@ -212,19 +222,24 @@ const Modal = ({ isOpen, onClose, onRefuse, onAccept, onConfirm, selectedNotific
             });
             navigateNext();
         } */
+
         const addProduct = () => {
             setForm(prev => [
                 ...prev,
                 {
                     "nomPils": '',
                     "quantite": quantityPortion,
-                    "avantRepas": 1,
-                    "apresRepas": 0,
+                    "quantiteDetails": selectedPortion,
                     "ajeun": 0,
-                    "matin": often.matin ? 1 : 0,
-                    "apresMidi": often.apresMidi ? 1 : 0,
-                    "soire": often.soire ? 1 : 0,
-                    "duree": daysPortion
+                    "avantRepas": 1,
+                    "pendantRepas": 0,
+                    "apresRepas": 0,
+                    "matin": 0,
+                    "apresMidi": 0,
+                    "soire": 0,
+                    "duree": daysPortion,
+                    "frequence": frequency,
+                    "frequenceDetails": selectedFrequency,
                 }
             ]);
             navigateNext();
@@ -327,21 +342,13 @@ const Modal = ({ isOpen, onClose, onRefuse, onAccept, onConfirm, selectedNotific
                                     </div>
                                 </div>
 
-
-
-
-
-
-
                                 <div className="row-span-1 col-span-6">
                                     <div className="inline-flex flex-row space-x-2 items-center">
                                         <span>Fréquence de prise</span>
                                         {frequencyTypes[selectedFrequency] != null && (<div className='inline-flex justify-center items-center space-x-1'>
-                                            <FaMinus className='text-[1.2rem] cursor-pointer text-textSecoundary' onClick={() => {
-                                                console.log('Minus');
-                                            }} />
-                                            <span className='text-textPrimary px-2 py-1 bg-lightShapes rounded-lg'>1{frequencyTypes[selectedFrequency]}</span>
-                                            <IoMdAdd className='text-[1.5rem] cursor-pointer text-textSecoundary' onClick={() => { console.log('Plus'); }} />
+                                            <FaMinus className='text-[1.2rem] cursor-pointer text-textSecoundary' onClick={() => minusFrequency()} />
+                                            <span className='text-textPrimary px-2 py-1 bg-lightShapes rounded-lg'>{currentForm["frequence"]}{frequencyTypes[selectedFrequency]}</span>
+                                            <IoMdAdd className='text-[1.5rem] cursor-pointer text-textSecoundary' onClick={() => addFrequency()} />
                                         </div>)}
                                         <DropdownMenu options={Object.entries(frequencyObjects).map(([key, value]) => ({
                                             value: key,
@@ -354,17 +361,13 @@ const Modal = ({ isOpen, onClose, onRefuse, onAccept, onConfirm, selectedNotific
                                     </div>
                                 </div>
 
-
-
-
-
                                 {/* Line 2 */}
                                 <div className="row-span-1 col-span-6">
                                     <div className="inline-flex flex-row space-x-2 items-center">
                                         <span>Quelle quantité par prise?</span>
                                         {portionTypes[selectedPortion] != null && (<div className='inline-flex justify-center items-center space-x-1'>
                                             <FaMinus className='text-[1.2rem] cursor-pointer text-textSecoundary' onClick={() => minusQuantity()} />
-                                            <span className='text-textPrimary px-2 py-1 bg-lightShapes rounded-lg'>{portionTypes[selectedPortion]}</span>
+                                            <span className='text-textPrimary px-2 py-1 bg-lightShapes rounded-lg'>{currentForm["quantite"]}</span>
                                             <IoMdAdd className='text-[1.5rem] cursor-pointer text-textSecoundary' onClick={() => addQuantity()} />
                                         </div>)}
                                         <DropdownMenu options={Object.entries(portionObjects).map(([key, value]) => ({
@@ -427,7 +430,7 @@ const Modal = ({ isOpen, onClose, onRefuse, onAccept, onConfirm, selectedNotific
                                         Cancel
                                     </button>
                                     <button
-                                        onClick={() => onConfirm(selectedNotification.idprescription, selectedNotification.idClient, form)}
+                                        onClick={() => onConfirm(selectedNotification.idprescription, selectedNotification.idClient, isOn ? form : [])}
                                         className="bg-primary text-white px-4 py-2 rounded hover:bg-darkPrimary"
                                     >
                                         Confirm
